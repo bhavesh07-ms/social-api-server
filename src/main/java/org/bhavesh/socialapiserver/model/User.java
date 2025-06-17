@@ -13,5 +13,7 @@ import java.util.List;
 public class User {
     private String username;
     private String password; // this is hashed
-    List<String> postIds;
+    //List<String> postIds;
+
+
 }
