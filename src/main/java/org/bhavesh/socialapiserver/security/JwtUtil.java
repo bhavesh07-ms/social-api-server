@@ -50,6 +50,5 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Long getUserIdFromToken(String refreshToken) {
-    }
+
 }
