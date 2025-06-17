@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNameAlreadyExistsException.class)
-    public ResponseEntity<ApiResponse<?>> handleCustomException(UserNameAlreadyExistsException ex) {
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<ApiResponse<?>> handleCustomException(UserException ex) {
         return new ResponseEntity<>(new ApiResponse<>(ex.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 

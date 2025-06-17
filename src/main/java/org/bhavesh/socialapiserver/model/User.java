@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class User {
+    private String userid;
     private String username;
     private String password; // this is hashed
     //List<String> postIds;

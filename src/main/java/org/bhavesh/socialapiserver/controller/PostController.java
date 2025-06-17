@@ -3,9 +3,11 @@ package org.bhavesh.socialapiserver.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.bhavesh.socialapiserver.dto.ApiResponse;
+import org.bhavesh.socialapiserver.dto.PostRequest;
+import org.bhavesh.socialapiserver.model.Post;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.bhavesh.springbootjwtsocialapi.service.PostService;
 import java.security.Principal;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
 
-    private final PostService postService;
+    private PostService postService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<Post>> createPost(@RequestBody PostRequest request, Principal principal) {

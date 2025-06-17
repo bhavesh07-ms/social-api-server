@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +18,8 @@ import java.util.Set;
 public class Post {
     private String id;
     private String content;
-    private String createdByUser;//many-to-one post -> user
+    private String author;//many-to-one post -> user
+    private LocalDateTime createdAt;
     private Set<String> likedByUser = new HashSet<>();
 
 }
