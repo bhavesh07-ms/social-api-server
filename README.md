@@ -1,7 +1,7 @@
 
 # Social API Server (Spring Boot - In-Memory)
 
-This is a lightweight, single-file Java Spring Boot API server that supports basic social media functionality — like user signup, login (JWT-based), post creation, post liking, and post deletion — using in-memory storage (no database). Designed for demonstration, interview, or prototype purposes.
+This is a lightweight,  Java Spring Boot API server that supports basic social media functionality — like user signup, login (JWT-based), post creation, post liking, and post deletion — using in-memory storage (no database). Designed for demonstration, interview, or prototype purposes.
 
 ---
 
@@ -13,7 +13,6 @@ This is a lightweight, single-file Java Spring Boot API server that supports bas
 - List All Posts
 - In-memory storage for users and posts
 - Logging and error handling built-in
-- **Single-file startup** (`SocialApiServer.java`)
 - Postman collection for easy API testing
 
 ---
@@ -31,7 +30,6 @@ This is a lightweight, single-file Java Spring Boot API server that supports bas
 ## 📂 Project Structure
 
 ```
-SocialApiServer.java         # Single Java file with all logic
 README.md                    # Setup and usage guide
 postman_collection.json      # (Optional) Postman collection for API testing
 ```
@@ -66,21 +64,6 @@ postman_collection.json      # (Optional) Postman collection for API testing
 git clone https://github.com/YOUR_USERNAME/social-api-server.git
 cd social-api-server
 ```
-
-2. Open `SocialApiServer.java` in your IDE or terminal.
-
-3. Run with Maven:
-```bash
-./mvnw spring-boot:run
-```
-
-Or compile and run manually:
-
-```bash
-javac SocialApiServer.java
-java org.bhavesh.socialapiserver.SocialApiServer
-```
-
 ---
 
 ## 🧪 How to Test with Postman
