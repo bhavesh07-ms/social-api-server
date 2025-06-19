@@ -9,12 +9,16 @@ import org.bhavesh.socialapiserver.dto.ApiResponse;
 import org.bhavesh.socialapiserver.dto.LoginRequest;
 import org.bhavesh.socialapiserver.dto.LoginResponse;
 import org.bhavesh.socialapiserver.dto.SignupRequest;
+import org.bhavesh.socialapiserver.model.User;
 import org.bhavesh.socialapiserver.service.AuthService;
+import org.bhavesh.socialapiserver.storage.UserStorage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -23,20 +27,25 @@ public class AuthController {
 
     private final AuthService authService;
 
-    public ResponseEntity<ApiResponse<Void>> signup(@RequestBody SignupRequest request) {
-        authService.signup(request);
-        return ResponseEntity.ok(new ApiResponse<>("User created successfully, Please login", null));
+    @PostMapping("/signup")
+    public ResponseEntity<ApiResponse<Map<String, String>>> signup(@RequestBody SignupRequest request) {
+        User user = authService.signup(request);
+
+        Map<String, String> responseData = new HashMap<>();
+        responseData.put("storedUsername", UserStorage.users.get(user.getUsername()).getUsername());
+
+        return ResponseEntity.ok(new ApiResponse<>("User created successfully", responseData));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest requestdto, HttpServletRequest request,
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest requestdto,
                                                             HttpServletResponse response) {
         LoginResponse loginresponse = authService.login(requestdto);
         Cookie cookie = new Cookie("refreshToken", loginresponse.getRefreshToken());
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
-        return ResponseEntity.ok((new ApiResponse<>("User created successfully, Please login", loginresponse)));
+        return ResponseEntity.ok((new ApiResponse<>("logged in", loginresponse)));
     }
 
     @PostMapping("/refresh")

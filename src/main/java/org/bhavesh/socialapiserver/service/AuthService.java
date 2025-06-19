@@ -3,6 +3,7 @@ package org.bhavesh.socialapiserver.service;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bhavesh.socialapiserver.dto.LoginRequest;
 import org.bhavesh.socialapiserver.dto.LoginResponse;
 import org.bhavesh.socialapiserver.dto.SignupRequest;
@@ -16,13 +17,13 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-
-    public void signup(SignupRequest request) {
+    public User signup(SignupRequest request) {
         if (UserStorage.users.containsKey(request.getUsername())) {
             throw new UserException("Username already exists");
         }
@@ -30,7 +31,8 @@ public class AuthService {
         User user = new User(UUID.randomUUID().toString(), request.getUsername(),
                 passwordEncoder.encode(request.getPassword()));
         UserStorage.users.put(user.getUsername(), user);
-
+        log.info("userstorage: {}", UserStorage.users.get(user.getUsername()));
+        return user;
     }
 
 
@@ -41,8 +43,13 @@ public class AuthService {
             throw new UserException("Invalid username or password");
         }
 
+        log.info("user info: {}", user.getUsername());
+
         String accessToken = jwtUtil.generateToken(user.getUsername());
+        log.info("Generated access token");
+
         String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+        log.info("Generated refresh token");
 
         return new LoginResponse(accessToken, refreshToken, user.getUsername());
     }

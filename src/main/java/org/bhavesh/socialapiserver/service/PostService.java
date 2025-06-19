@@ -9,13 +9,12 @@ import org.bhavesh.socialapiserver.model.Post;
 import org.bhavesh.socialapiserver.model.User;
 import org.bhavesh.socialapiserver.storage.PostStorage;
 import org.bhavesh.socialapiserver.storage.UserStorage;
-import org.springframework.security.core.userdetails.memory.UserAttribute;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -24,13 +23,17 @@ public class PostService {
 
 
 
-
     public Post createPost(PostRequest request, Principal principal) {
-        String username = principal.getName();
-        User user = UserStorage.users.get(username);
+        if (principal == null || principal.getName() == null) {
+            throw new UserException("User principal is missing or invalid");
+        }
 
+        String username = principal.getName();
+        log.info("Principal username: {}", username);
+
+        User user = UserStorage.users.get(username);
         if (user == null) {
-            throw new UserException("User not found");
+            throw new UserException("User not found for username: " + username);
         }
 
         String postId = UUID.randomUUID().toString();
@@ -41,7 +44,11 @@ public class PostService {
         return post;
     }
 
+
     public void deletePost(String postId, Principal principal) {
+        if (principal == null || principal.getName() == null) {
+            throw new UserException("User principal is missing or invalid");
+        }
         String username = principal.getName();
         Post post = PostStorage.posts.get(postId);
 
@@ -57,23 +64,66 @@ public class PostService {
         log.info("User '{}' deleted post with ID {}", username, postId);
     }
 
-    public void likePost(String postId, Principal principal) {
+    public Post likePost(String postId, Principal principal) {
+        if (principal == null || principal.getName() == null) {
+            throw new UserException("User principal is missing or invalid");
+        }
         String username = principal.getName();
-        Post post = PostStorage.posts.get(postId);
 
+        User user = UserStorage.users.get(username);
+        if (user == null) {
+            throw new UserException("User not found for username: " + username);
+        }
+
+        Post post = PostStorage.posts.get(postId);
+        if (post == null) {
+            throw new UserException("Post not found for ID: " + postId);
+        }
+
+        synchronized (post) {
+            Set<String> likedBy = post.getLikedByUser();
+            boolean added = likedBy.add(user.getUsername());
+
+            if (!added) {
+                throw new UserException("You have already liked this post");
+            }
+
+            post.setLikedByUser(likedBy);
+            PostStorage.posts.put(postId, post);
+        }
+
+        log.info("User '{}' (ID: {}) liked post with ID {}", username, user.getUserid(), postId);
+        return post;
+    }
+
+
+    public List<Post> listPosts() {
+        return new ArrayList<>(PostStorage.posts.values());
+    }
+
+    public List<Post> listPostsByUser(String username) {
+        return PostStorage.posts.values().stream()
+                .filter(post -> post.getAuthor().equals(username))
+                .collect(Collectors.toList());
+    }
+
+    public Map<String, List<String>> getLikesInfo(String postId) {
+        Post post = PostStorage.posts.get(postId);
         if (post == null) {
             throw new UserException("Post not found");
         }
 
-        if (post.getAuthor().equals(username)) {
-            throw new UserException("You cannot like your own post");
-        }
+        List<String> likedUsernames = post.getLikedByUser().stream()
+                .map(userId -> UserStorage.users.values().stream()
+                        .filter(user -> user.getUserid().equals(userId))
+                        .map(User::getUsername)
+                        .findFirst()
+                        .orElse("Unknown User"))
+                .collect(Collectors.toList());
 
-
-        log.info("User '{}' liked post with ID {}", username, postId);
-    }
-
-    public List<Post> listPosts() {
-        return new ArrayList<>(PostStorage.posts.values());
+        String key = "No of Likes: " + likedUsernames.size();
+        Map<String, List<String>> result = new HashMap<>();
+        result.put(key, likedUsernames);
+        return result;
     }
 }

@@ -1,6 +1,8 @@
 package org.bhavesh.socialapiserver.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+
 
 @Data
 public class LoginRequest {
