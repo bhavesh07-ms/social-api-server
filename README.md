@@ -78,12 +78,12 @@ cd social-api-server
    - we have environment variables in postman collection
    - base_url - http://localhost:8080
    - 
-   - accessToken - copy from auth/login response, to be set in create post bearer token only 1 time ,
+   - accessToken - copy from auth/login response, to be set in posts/create bearer token only 1 time ,
    -copy -  ![image](https://github.com/user-attachments/assets/10b84565-d4a7-429c-a5a4-7f1d38524511)
    - paste as like these - ![image](https://github.com/user-attachments/assets/3661fefd-5572-44ec-8855-b9792e5da10a)
    - it will be used in other requests
   
-   - postId - copy from posts/create response, paste only 1 time in
+   - postId - copy from posts/create response, paste only 1 time in posts/like request
    - copy  ![image](https://github.com/user-attachments/assets/c04484f3-1eea-4bd8-b62e-ccda9ff94043)
    - paste here - ![image](https://github.com/user-attachments/assets/90c5cb49-60a1-40ab-943f-40b83f5fb3f8)
    - it will be used in other requests 
