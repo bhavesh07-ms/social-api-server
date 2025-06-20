@@ -30,8 +30,52 @@ This is a lightweight,  Java Spring Boot API server that supports basic social m
 ## 📂 Project Structure
 
 ```
-README.md                    # Setup and usage guide
-postman_collection.json      # (Optional) Postman collection for API testing
+social-api-server/
+├── src/
+│   └── main/
+│       └── java/
+│           └── org/
+│               └── bhavesh/
+│                   └── socialapiserver/
+│                       ├── controller/
+│                       │   ├── AuthController.java  //signup , login
+│                       │   └── PostController.java  // all post apis 
+│                       │
+                        ├── config/
+│                       │   ├──AppConfig.java  //for custom beans
+│               
+
+│                       ├── model/
+│                       │   ├── User.java   // pojo classes
+│                       │   └── Post.java
+│                       │
+                        ├── dto/
+│                       │   ├── ApiResponse.java   
+│                       │   └── LoginRequest.java
+                        │   ├── LoginResponse.java
+                        │   ├── PostRequest.java
+                        │   ├── SignupRequest.java  
+
+│                       ├── storage/
+│                       │   ├── UserStorage.java     // In-memory storage for users
+│                       │   └── PostStorage.java     // In-memory storage for posts
+│                       │
+│                       ├── security/
+│                       │   ├── JwtFilter.java       // @Component
+│                       │   ├── JwtUtil.java
+│                       │   └── SecurityConfig.java  // Spring Security Config
+│                       │
+│                       ├── exception/
+│                       │   └── UserException.java
+│                       │   └── PostException.java
+│                       │
+│                       └── SocialApiServerApplication.java
+│
+├── .gitignore
+├── README.md
+├── pom.xml
+
+
 ```
 
 ---
@@ -72,7 +116,7 @@ cd social-api-server
 
 1. Open Postman
 2. Import this collection:  
-   👉 https://.postman.co/workspace/My-Workspace~a6554489-8f32-4bb1-840a-b778cdfd86c6/collection/40281184-51d2ecf0-dfe7-47a8-b1ce-1d5056362c60?action=share&creator=40281184&active-environment=40281184-417c720a-c0ea-4995-8797-fa2b52e7fcde
+   👉 https://www.postman.com/spacecraft-cosmonaut-45274416/workspace/sociappiworkspace/collection/40281184-51d2ecf0-dfe7-47a8-b1ce-1d5056362c60?action=share&creator=40281184
 3. Follow the order:  
    - `Signup` → `Login` → copy `token`
    - Set token as `Bearer <token>` in Authorization tab for other requests
