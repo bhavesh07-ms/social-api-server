@@ -55,6 +55,7 @@ postman_collection.json      # (Optional) Postman collection for API testing
 | DELETE | `/api/posts/delete/{id}`    | Delete your post          |
 | GET    | `/api/posts`                | List all posts            |
 | GET    | `/api/posts/{id}/like-info` | Get post like info        |
+| GET    | `/api/posts/by-user/{username }| Get post by user       |
 
 ---
 
