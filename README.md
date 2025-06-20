@@ -116,8 +116,20 @@ cd social-api-server
 
 1. Open Postman
 2. Import this collection:  
-   👉 https://www.postman.com/spacecraft-cosmonaut-45274416/workspace/sociappiworkspace/collection/40281184-51d2ecf0-dfe7-47a8-b1ce-1d5056362c60?action=share&creator=40281184
-3. Follow the order:  
+   👉## 🔄 Postman Collection (Local Import)
+
+A ready-to-use Postman collection is included in this project for testing all APIs.
+
+📁 File:  
+`postman/social_api_server.postman_collection.json`
+
+### 🚀 How to Use
+
+1. Open Postman
+2. Click **Import**
+3. Select the file: `social_api_server.postman_collection.json`
+4. You’ll now see all endpoints organized under the `social_api_server` collection
+   
    - `Signup` → `Login` → copy `token`
    - Set token as `Bearer <token>` in Authorization tab for other requests
    - we have environment variables in postman collection
