@@ -32,6 +32,7 @@ public class PostService {
         log.info("Principal username: {}", username);
 
         User user = UserStorage.users.get(username);
+        //user null check
         if (user == null) {
             throw new UserException("User not found for username: " + username);
         }
@@ -46,6 +47,7 @@ public class PostService {
 
 
     public void deletePost(String postId, Principal principal) {
+        // Check if the principal is null or if the name is null
         if (principal == null || principal.getName() == null) {
             throw new UserException("User principal is missing or invalid");
         }
@@ -79,7 +81,7 @@ public class PostService {
         if (post == null) {
             throw new UserException("Post not found for ID: " + postId);
         }
-
+        // Check if the user has already liked the post maintaining thread safety
         synchronized (post) {
             Set<String> likedBy = post.getLikedByUser();
             boolean added = likedBy.add(user.getUsername());
@@ -113,15 +115,9 @@ public class PostService {
             throw new UserException("Post not found");
         }
 
-        List<String> likedUsernames = post.getLikedByUser().stream()
-                .map(userId -> UserStorage.users.values().stream()
-                        .filter(user -> user.getUserid().equals(userId))
-                        .map(User::getUsername)
-                        .findFirst()
-                        .orElse("Unknown User"))
-                .collect(Collectors.toList());
-
+        List<String> likedUsernames = new ArrayList<>(post.getLikedByUser());
         String key = "No of Likes: " + likedUsernames.size();
+
         Map<String, List<String>> result = new HashMap<>();
         result.put(key, likedUsernames);
         return result;

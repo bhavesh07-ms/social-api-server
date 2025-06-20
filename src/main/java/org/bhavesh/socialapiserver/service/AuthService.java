@@ -23,6 +23,7 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    //put username,User in concurrent hashmap
     public User signup(SignupRequest request) {
         if (UserStorage.users.containsKey(request.getUsername())) {
             throw new UserException("Username already exists");
@@ -38,7 +39,7 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         User user = UserStorage.users.get(request.getUsername());
-
+        // Check if user exists and password matches
         if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new UserException("Invalid username or password");
         }
@@ -53,7 +54,7 @@ public class AuthService {
 
         return new LoginResponse(accessToken, refreshToken, user.getUsername());
     }
-
+    //gives new access token if refresh token is valid
     public LoginResponse refreshToken(String refreshToken) {
         if (!jwtUtil.validateToken(refreshToken)) {
             throw new UserException("Invalid or expired refresh token");
