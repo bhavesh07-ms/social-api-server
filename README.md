@@ -137,9 +137,9 @@ A ready-to-use Postman collection is included in this project for testing all AP
    - we have environment variables in postman collection
    - base_url - http://localhost:8080
    
-   - accessToken - copy from auth/login response, to be set in posts/create bearer token only 1 time ,
+   - accessToken - initially empty  ,
    - 
-   - postId - copy from posts/create response, paste only 1 time in posts/like request
+   - postId - initially empty
 
   - after /api/auth/login response access token automatically sets in bearer token of other request
   - after  `/api/posts/create` response postId automatically sets in environment variable which is used on other request
