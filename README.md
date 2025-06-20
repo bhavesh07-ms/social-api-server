@@ -144,7 +144,8 @@ A ready-to-use Postman collection is included in this project for testing all AP
   - after /api/auth/login response access token automatically sets in bearer token of other request
   - after  `/api/posts/create` response postId automatically sets in environment variable which is used on other request
 
-   PS -> if you hit `/api/posts/delete/{id}` request you need to hit `/api/posts/create` request again for other api's to work in case of  single post, if multiple post then set postId manually from list of posts to postId env variable.
+   PS -> if you hit `/api/posts/delete/{id}` request you need to hit `/api/posts/create` request again for other api's to work
+    in case of  single post, if multiple post then set postId manually from list of posts to postId env variable.
 
 
 ---
