@@ -4,6 +4,7 @@ package org.bhavesh.socialapiserver.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bhavesh.socialapiserver.dto.PostRequest;
+import org.bhavesh.socialapiserver.exception.PostException;
 import org.bhavesh.socialapiserver.exception.UserException;
 import org.bhavesh.socialapiserver.model.Post;
 import org.bhavesh.socialapiserver.model.User;
@@ -79,7 +80,7 @@ public class PostService {
 
         Post post = PostStorage.posts.get(postId);
         if (post == null) {
-            throw new UserException("Post not found for ID: " + postId);
+            throw new PostException("Post not found for ID: " + postId);
         }
         // Check if the user has already liked the post maintaining thread safety
         synchronized (post) {
@@ -87,7 +88,7 @@ public class PostService {
             boolean added = likedBy.add(user.getUsername());
 
             if (!added) {
-                throw new UserException("You have already liked this post");
+                throw new PostException("You have already liked this post");
             }
 
             post.setLikedByUser(likedBy);
@@ -112,7 +113,7 @@ public class PostService {
     public Map<String, List<String>> getLikesInfo(String postId) {
         Post post = PostStorage.posts.get(postId);
         if (post == null) {
-            throw new UserException("Post not found");
+            throw new PostException("Post not found");
         }
 
         List<String> likedUsernames = new ArrayList<>(post.getLikedByUser());

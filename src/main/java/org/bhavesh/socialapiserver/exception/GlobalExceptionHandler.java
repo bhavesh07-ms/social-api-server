@@ -19,4 +19,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<?>> handleGeneralException(Exception ex) {
         return new ResponseEntity<>(new ApiResponse<>("Internal server error", null), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(PostException.class)
+    public ResponseEntity<ApiResponse<?>> handlePostException(PostException ex) {
+        return new ResponseEntity<>(new ApiResponse<>(ex.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
 }
