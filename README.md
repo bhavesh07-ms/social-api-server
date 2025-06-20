@@ -30,8 +30,52 @@ This is a lightweight,  Java Spring Boot API server that supports basic social m
 ## 📂 Project Structure
 
 ```
-README.md                    # Setup and usage guide
-postman_collection.json      # (Optional) Postman collection for API testing
+social-api-server/
+├── src/
+│   └── main/
+│       └── java/
+│           └── org/
+│               └── bhavesh/
+│                   └── socialapiserver/
+│                       ├── controller/
+│                       │   ├── AuthController.java  //signup , login
+│                       │   └── PostController.java  // all post apis 
+│                       │
+                        ├── config/
+│                       │   ├──AppConfig.java  //for custom beans
+│               
+
+│                       ├── model/
+│                       │   ├── User.java   // pojo classes
+│                       │   └── Post.java
+│                       │
+                        ├── dto/
+│                       │   ├── ApiResponse.java   
+│                       │   └── LoginRequest.java
+                        │   ├── LoginResponse.java
+                        │   ├── PostRequest.java
+                        │   ├── SignupRequest.java  
+
+│                       ├── storage/
+│                       │   ├── UserStorage.java     // In-memory storage for users
+│                       │   └── PostStorage.java     // In-memory storage for posts
+│                       │
+│                       ├── security/
+│                       │   ├── JwtFilter.java       // @Component
+│                       │   ├── JwtUtil.java
+│                       │   └── SecurityConfig.java  // Spring Security Config
+│                       │
+│                       ├── exception/
+│                       │   └── UserException.java
+│                       │   └── PostException.java
+│                       │
+│                       └── SocialApiServerApplication.java
+│
+├── .gitignore
+├── README.md
+├── pom.xml
+
+
 ```
 
 ---
@@ -55,6 +99,7 @@ postman_collection.json      # (Optional) Postman collection for API testing
 | DELETE | `/api/posts/delete/{id}`    | Delete your post          |
 | GET    | `/api/posts`                | List all posts            |
 | GET    | `/api/posts/{id}/like-info` | Get post like info        |
+| GET    | `/api/posts/by-user/{username }| Get post by user       |
 
 ---
 
@@ -71,10 +116,25 @@ cd social-api-server
 
 1. Open Postman
 2. Import this collection:  
-   👉 [[Postman Collection Link](https://postman.co/workspace/My-Workspace~a6554489-8f32-4bb1-840a-b778cdfd86c6/request/40281184-c2dec6b8-789b-4990-8de9-c3bcb9acde73)](https://.postman.co/workspace/My-Workspace~a6554489-8f32-4bb1-840a-b778cdfd86c6/collection/40281184-51d2ecf0-dfe7-47a8-b1ce-1d5056362c60?action=share&creator=40281184&active-environment=40281184-417c720a-c0ea-4995-8797-fa2b52e7fcde)
+   👉 https://www.postman.com/spacecraft-cosmonaut-45274416/workspace/sociappiworkspace/collection/40281184-51d2ecf0-dfe7-47a8-b1ce-1d5056362c60?action=share&creator=40281184
 3. Follow the order:  
    - `Signup` → `Login` → copy `token`
    - Set token as `Bearer <token>` in Authorization tab for other requests
+   - we have environment variables in postman collection
+   - base_url - http://localhost:8080
+   - 
+   - accessToken - copy from auth/login response, to be set in posts/create bearer token only 1 time ,
+   -copy -  ![image](https://github.com/user-attachments/assets/10b84565-d4a7-429c-a5a4-7f1d38524511)
+   - paste as like these - ![image](https://github.com/user-attachments/assets/3661fefd-5572-44ec-8855-b9792e5da10a)
+   - it will be used in other requests
+  
+   - postId - copy from posts/create response, paste only 1 time in posts/like request
+   - copy  ![image](https://github.com/user-attachments/assets/c04484f3-1eea-4bd8-b62e-ccda9ff94043)
+   - paste here - ![image](https://github.com/user-attachments/assets/90c5cb49-60a1-40ab-943f-40b83f5fb3f8)
+   - it will be used in other requests 
+
+
+
 
 ---
 
