@@ -9,7 +9,7 @@ This is a lightweight,  Java Spring Boot API server that supports basic social m
 
 - User Signup and Login with JWT Token generation
 - JWT-based Authentication and Authorization
-- Create Posts, Like Posts, Delete Posts
+- Create Posts, Like Posts, Delete Posts, Lists all posts by user, get posts by how much user liked
 - List All Posts
 - In-memory storage for users and posts
 - Logging and error handling built-in
@@ -109,7 +109,8 @@ social-api-server/
 ```bash
 git clone https://github.com/YOUR_USERNAME/social-api-server.git
 cd social-api-server
-```
+```mvn clean install
+``` Run Springboot app
 ---
 
 ## 🧪 How to Test with Postman
@@ -130,22 +131,20 @@ A ready-to-use Postman collection is included in this project for testing all AP
 3. Select the file: `social_api_server.postman_collection.json`
 4. You’ll now see all endpoints organized under the `social_api_server` collection
    
-   - `Signup` → `Login` → copy `token`
-   - Set token as `Bearer <token>` in Authorization tab for other requests
+   - `Signup` → `Login` → Refresh(if access token expired)
+
+    `Post Create` → `Post Like` →  `List Posts` → `get Posts by Likes` →  `get Posts by User` → `Delete Post`
    - we have environment variables in postman collection
    - base_url - http://localhost:8080
-   - 
+   
    - accessToken - copy from auth/login response, to be set in posts/create bearer token only 1 time ,
-   -copy -  ![image](https://github.com/user-attachments/assets/10b84565-d4a7-429c-a5a4-7f1d38524511)
-   - paste as like these - ![image](https://github.com/user-attachments/assets/3661fefd-5572-44ec-8855-b9792e5da10a)
-   - it will be used in other requests
-  
+   - 
    - postId - copy from posts/create response, paste only 1 time in posts/like request
-   - copy  ![image](https://github.com/user-attachments/assets/c04484f3-1eea-4bd8-b62e-ccda9ff94043)
-   - paste here - ![image](https://github.com/user-attachments/assets/90c5cb49-60a1-40ab-943f-40b83f5fb3f8)
-   - it will be used in other requests 
 
+  - after /api/auth/login response access token automatically sets in bearer token of other request
+  - after  `/api/posts/create` response postId automatically sets in environment variable which is used on other request
 
+   PS -> if you hit `/api/posts/delete/{id}` request you need to hit `/api/posts/create` request again for other api's to work in case of  single post, if multiple post then set postId manually from list of posts to postId env variable.
 
 
 ---
